@@ -1,0 +1,57 @@
+<div class="row">
+    <h1>Update your settings</h1>
+
+    <form name="form" ng-submit="updateSettings()">
+        <fieldset>
+            <legend>Update settings</legend>
+
+            <div class="row">
+                <div class="small-8 columns">
+                    <label>Name</label>
+                    <input type="text" placeholder="Name" name="name" ng-model="settings.name" ng-minlength="3" ng-maxlength="20" ng-pattern="/[a-zA-Z]+$/" required/>
+                    <div ng-show="form.name.$dirty && form.name.$invalid">
+                        <span ng-show="form.name.$error.required">
+                            Your name is required
+                        </span>
+                        <span ng-show="form.name.$error.minlength">
+                            Your name is to short
+                        </span>
+                        <span ng-show="form.name.$error.maxlength">
+                            Your name is too long
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-8 columns">
+                    <label>Email</label>
+                    <input type="email" placeholder="Email" name="email" ng-model="settings.email"/>
+                    <div ng-show="form.email.$dirty && form.email.$invalid">
+                        <span ng-show="form.email.$error.email">
+                            Not a valid email
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-8 columns">
+                    <label>Age</label>
+                    <input type="number" placeholder="Age" name="age" ng-model="settings.age" min="5" max="100"/>
+                    <div ng-show="form.age.$dirty && form.age.$invalid">
+                        <span ng-show="form.age.$error.min">
+                            Too Young
+                        </span>
+                        <span ng-show="form.age.$error.max">
+                            Too Old
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="push-9 small-3">
+                    <button type="submit" class="button round" ng-disabled="form.$dirty && form.$invalid">Update</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
