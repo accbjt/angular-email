@@ -33,7 +33,7 @@
                 </div>
 
                 <button class="button radius" ng-click="sendReply()">Send</button>
-                <button class="button radius alert" ng-click="cancelReply()">Cancel</button>
+                <button class="button radius alert" ng-click="toggleReplyForm()">Cancel</button>
             </div>
         </form>
         <div class="row header">
@@ -42,7 +42,7 @@
         </div>
         <div class="row actions">
             <div class="small-8 columns">{{ selectedMail.from.join(", ") }} to {{ selectedMail.to }} </div>
-            <a ng-click="showReply()" class="button radius push-1">Reply</a>
+            <a ng-click="toggleReplyForm()" class="button radius push-1">Reply</a>
         </div>
         <div class="small-12 columns" ng-bind-html-unsafe="selectedMail.body">
         </div>
