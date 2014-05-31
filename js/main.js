@@ -53,6 +53,11 @@ app.controller('ContentController', [ '$scope', function($scope){
         $scope.reply.body = "\n\n --------------------\n\n" + $scope.selectedMail.body;
     };
 
+    $scope.$watch('selectedMail', function(evt) {
+        $scope.showingReply = false;
+        $scope.reply = {};
+    });
+
 }]);
 
 
