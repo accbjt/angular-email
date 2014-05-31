@@ -49,7 +49,9 @@ app.controller('ContentController', [ '$scope', function($scope){
     $scope.toggleReplyForm = function() {
         $scope.showingReply = !$scope.showingReply;
         $scope.reply = {};
-    }
+        $scope.reply.to = $scope.selectedMail.from.join(", ");
+        $scope.reply.body = "\n\n --------------------\n\n" + $scope.selectedMail.body;
+    };
 
 }]);
 
