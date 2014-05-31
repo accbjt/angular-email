@@ -12,6 +12,35 @@ app.config(function($routeProvider) {
     .otherwise({ redirectTo: '/' })
 });
 
+app.service('mailService', ['$http', '$q', function($http, $q){
+    var getMail = function() {
+        // using the angular http services to GET data from backend
+        return $http({
+            method: 'GET',
+            url: '/api/mail'
+        });
+    };
+
+    var sendEmail = function(mail) {
+        var d = $q.defer();
+        $http({
+            method: 'POST',
+            data: mail,
+            url: '/api/send'
+        }).sucess(function(data, status, headers) {
+            d.resolve(data);
+        }).error(function(data, status, headers) {
+            d.reject(data);
+        });
+        return d.promise;
+    };
+
+    return {
+        getMail: getMail,
+        sendEmail: sendEmail
+    };
+}]);
+
 app.controller('HomeController', function($scope){
     $scope.selectedMail;
 
@@ -26,13 +55,11 @@ app.controller('HomeController', function($scope){
     }
 });
 
-app.controller('MailListingController', ['$scope', '$http', function($scope, $http){
+app.controller('MailListingController', ['$scope', 'mailService', function($scope, mailService){
     $scope.email = []
-    // using the angular http services to GET data from backend
-    $http({
-        method: 'GET',
-        url: '/api/mail'
-    })
+
+    mailService.getMail()
+
     //setting the data to the mail.json file
     .success(function(data, status, headers){
         $scope.email = data.all;
@@ -42,7 +69,7 @@ app.controller('MailListingController', ['$scope', '$http', function($scope, $ht
     });
 }]);
 
-app.controller('ContentController', [ '$scope', function($scope){
+app.controller('ContentController', [ '$scope', 'mailService', function($scope, mailService){
     $scope.showingReply = false;
     $scope.reply = {};
 
@@ -51,6 +78,15 @@ app.controller('ContentController', [ '$scope', function($scope){
         $scope.reply = {};
         $scope.reply.to = $scope.selectedMail.from.join(", ");
         $scope.reply.body = "\n\n --------------------\n\n" + $scope.selectedMail.body;
+    };
+
+    $scope.sendReply = function() {
+        mailService.sendEmail($scope.reply)
+            .then(function(status){
+
+            }, function(error){
+
+            });
     };
 
     $scope.$watch('selectedMail', function(evt) {
