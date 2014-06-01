@@ -55,8 +55,28 @@ app.controller('HomeController', function($scope){
     }
 });
 
+app.directive('emailListing', function() {
+   return{
+       restrict: 'EA',
+       replace: false,
+       scope: {
+            email: '=', // accept an object
+           action: '&', //accept a function
+           shouldUseGravater: '@' //accept as string
+       },
+       templateUrl: '/templates/emailListing.html',
+       controller: ['$scope', '$element', '$attrs', '$transclude',
+           function ($scope, $element, $attrs, $transclude) {
+               $scope.handleClick = function() {
+                   $scope.action({selectedMail: $scope.email});
+               };
+           }
+       ]
+   }
+});
+
 app.controller('MailListingController', ['$scope', 'mailService', function($scope, mailService){
-    $scope.email = []
+    $scope.email = [];
 
     mailService.getMail()
 
