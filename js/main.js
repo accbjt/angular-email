@@ -12,7 +12,7 @@ app.config(function($routeProvider) {
     .otherwise({ redirectTo: '/' })
 });
 
-app.service('mailService', ['$http', '$q', function($http, $q){
+app.service('mailService', ['$http', '$q', function($http, $q) {
     var getMail = function() {
         // using the angular http services to GET data from backend
         return $http({
@@ -27,7 +27,7 @@ app.service('mailService', ['$http', '$q', function($http, $q){
             method: 'POST',
             data: mail,
             url: '/api/send'
-        }).sucess(function(data, status, headers) {
+        }).success(function(data, status, headers) {
             d.resolve(data);
         }).error(function(data, status, headers) {
             d.reject(data);
@@ -69,7 +69,7 @@ app.controller('MailListingController', ['$scope', 'mailService', function($scop
     });
 }]);
 
-app.controller('ContentController', [ '$scope', 'mailService', function($scope, mailService){
+app.controller('ContentController', [ '$scope', 'mailService','$rootScope', function($scope, mailService, $rootScope){
     $scope.showingReply = false;
     $scope.reply = {};
 
@@ -81,11 +81,13 @@ app.controller('ContentController', [ '$scope', 'mailService', function($scope, 
     };
 
     $scope.sendReply = function() {
+        $scope.showingReply = false;
+        $rootScope.loading = true;
         mailService.sendEmail($scope.reply)
             .then(function(status){
-
+                $rootScope.loading = false;
             }, function(error){
-
+                $rootScope.loading = false;
             });
     };
 
