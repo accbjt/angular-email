@@ -1,4 +1,5 @@
 <div class="emailListing" ng-click="handleClick()">
+    <div ng-transclude></div>
     <img src="{{ gravatarImage }}" alt="{{ email.from[0] }}"/>
     <span class="fromLine"><b>{{ email.from.join(", ") }} to {{ email.to }}</b></span>
     <span class="subject">{{ email.subject }}</span>

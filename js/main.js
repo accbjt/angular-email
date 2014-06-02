@@ -67,6 +67,7 @@ app.directive('emailListing', function() {
            shouldUseGravatar: '@', //accept as string
            gravatarSize: '@'
        },
+       transclude: true,
        templateUrl: '/templates/emailListing.html',
        controller: ['$scope', '$element', '$attrs', '$transclude',
            function ($scope, $element, $attrs, $transclude) {
