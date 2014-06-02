@@ -76,12 +76,17 @@ app.directive('emailListing', function() {
            }
        ],
        link: function(scope, iElement, iAttrs, controller) {
-            var size = iAttrs.gravatarSize || 80;
+           var size = iAttrs.gravatarSize || 80;
 
-            scope.$watch('gravatarImage', function(){
-                var hash = MD5(scope.email.from[0]);
-                scope.gravatarImage = url + hash + '?s=' + size;
-            });
+           scope.$watch('gravatarImage', function(){
+               var hash = MD5(scope.email.from[0]);
+               scope.gravatarImage = url + hash + '?s=' + size;
+           });
+
+           iElement.bind('click', function() {
+               iElement.parent().children().removeClass('selected');
+               iElement.addClass('selected');
+           });
        }
 
    }
